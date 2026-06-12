@@ -86,7 +86,7 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
   image?: string,        // base64/data URL (png/jpeg/webp); caps: L 512KiB / M 256KiB / S 96KiB
   imageUrl?: string,     // or a pre-hosted URL
   // recommended dimensions (2× display, true slot ratios):
-  //   large 1712×944 (1.81:1) · medium 1136×464 (2.45:1) · small 560×464 (1.21:1, near-square)
+  //   large 1712×944 (1.81:1) · medium 1136×464 (2.45:1) · small 560×464 (1.21:1)
 
   // richer creative (all optional; OMITTING THEM ON A BUY CLEARS THEM —
   // creatives never carry over from the previous owner):
