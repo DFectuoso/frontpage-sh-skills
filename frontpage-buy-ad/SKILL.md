@@ -1,0 +1,105 @@
+---
+name: frontpage-buy-ad
+description: Buy one of the 8 ad squares on frontpage.sh — pay USDC on Tempo via MPP, two HTTP calls, no accounts. Each buy bumps the square's price; the previous owner is refunded automatically with interest.
+---
+
+# frontpage-buy-ad
+
+Use this skill when the user wants to **buy an ad square on frontpage.sh** — the perpetual auction with one large square (L), two medium (M1, M2), and five small (S1–S5). Every square is forever for sale.
+
+Each buy is a one-shot flip: you pay the square's next price, the previous owner is refunded a multiple of what the slot was worth, and 80% of the remaining spread feeds the project pool (spent via the idea board — see [`frontpage-vote`](/skills/frontpage-vote)). Prices ratchet up per buy. The wallet that pays becomes the owner.
+
+## Install
+
+```bash
+npx skills add DFectuoso/frontpage-sh-skills                     # all frontpage skills
+npx skills add DFectuoso/frontpage-sh-skills/frontpage-buy-ad    # just this one
+```
+
+Testing against a dev box / Tempo testnet? Install `frontpage-buy-ad-dev` as well — it overrides the base URL and network.
+
+## Pricing
+
+- Base price: $0.01 (10,000 µUSDC)
+- **Large (L):** next price = current × 3.0 · previous owner refunded 1.5× current
+- **Medium (M1, M2):** × 2.0 · refund 1.3× current
+- **Small (S1–S5):** × 1.5 · refund 1.0× current (break-even)
+- Spread after refund splits **20% platform / 80% project pool**
+
+USDC on Tempo, 6 decimals; all API amounts are µUSDC integers.
+**Don't reimplement the multipliers** — `GET /api/ads` returns `nextPriceMicros` per square, precomputed.
+
+## The flow (MPP — the only payment path)
+
+Base URL: `https://frontpage.sh` · full machine-readable contract: `https://frontpage.sh/openapi.json`
+
+### 1. `GET /api/ads` — squares, current prices, and what the next buy costs
+
+```bash
+curl https://frontpage.sh/api/ads
+# each ad includes: currentPrice, nextPriceMicros, tier, slot, ctaLabel/perk/promoCode, …
+```
+
+### 2. `POST /api/preview` — mint a preview token ($0.10 MPP)
+
+Locks your creative + the quoted price into a signed token (valid 10 minutes) and returns a shareable preview URL plus an exact `next` instruction for settling.
+
+### 3. `POST /api/buy` — charges `nextPrice` exactly, flips the square
+
+```ts
+import { privateKeyToAccount } from 'viem/accounts'
+import { Mppx, tempo } from 'mppx/client'
+
+Mppx.create({ methods: [tempo({ account: privateKeyToAccount('0x...') })] })
+
+const res = await fetch('https://frontpage.sh/api/buy', {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify({ previewToken: '<token from /api/preview>' }),
+})
+// { ok, transactionId, adId, slot, newOwnerWallet, newPrice, refundAmount, payment, payout, links }
+```
+
+MPP handles the 402 challenge automatically — the SDK signs the USDC transfer and retries with `Authorization: Payment …`.
+
+- `409 PRICE_CHANGED` — the square flipped between preview and buy: re-mint the preview at the new price.
+- `409 SLOT_CONFLICT` — you lost a concurrent race after paying: your charge is refunded automatically within ~1 minute.
+
+## Payload shape (the preview body)
+
+```ts
+{
+  slot: "S1",            // L | M1 | M2 | S1..S5
+  name: string,          // 1-64 chars
+  tagline?: string,      // ≤140
+  url: string,           // https://...
+  monogram: string,      // 1-4 chars (e.g. "TS")
+  logoColor: string,     // hex like "#0A0A09"
+  logoBg: string,        // hex
+  adBg: string,          // CSS background, e.g. "linear-gradient(135deg,#F1ED4A,#FFA850)"
+  adHeadline: string,    // tier caps: large 120 / medium 60 / small 32 (use \n for line breaks)
+  blurb?: string,        // ≤500
+  ownerHandle: string,   // 1-40 — your byline on the square
+  ownerEmail?: string,   // receipts only, never public
+
+  // image: rendered as a COVER layer over adBg, at the square's true ratio
+  image?: string,        // base64/data URL (png/jpeg/webp); caps: L 512KiB / M 256KiB / S 96KiB
+  imageUrl?: string,     // or a pre-hosted URL
+  // recommended dimensions (2× display, true slot ratios):
+  //   large 1712×944 (1.81:1) · medium 1136×464 (2.45:1) · small 560×464 (1.21:1, near-square)
+
+  // richer creative (all optional; OMITTING THEM ON A BUY CLEARS THEM —
+  // creatives never carry over from the previous owner):
+  ctaLabel?: string,     // ≤24 — custom button text, e.g. "get the deal"
+  perk?: string,         // ≤140 — offer line, shown prominently in the details view
+  promoCode?: string,    // ≤24 — copyable code next to the perk
+}
+```
+
+## Heuristics for agents
+
+- **Read `nextPriceMicros` from `/api/ads`** — no tier math needed; it's exactly what `/api/buy` will charge.
+- **Bring a perk.** Squares with a perk + promo code give viewers a reason to click through — that's the conversion the slot is for.
+- **Design for the real ratio.** Your image cover-crops to the slot's shape (and tighter crops on mobile) — keep the message in the center.
+- **Moderation runs server-side** (OpenAI omni-moderation) over every text field including perk/cta/code. Adult/hateful/spam → 400.
+- **The flip is instant.** The previous owner's refund settles inline or via the retry worker; read `payout.status` on the receipt.
