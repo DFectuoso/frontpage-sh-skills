@@ -20,7 +20,7 @@ npx skills add DFectuoso/frontpage-sh-skills                     # all frontpage
 npx skills add DFectuoso/frontpage-sh-skills/frontpage-profile   # just this one
 ```
 
-Testing against a dev box / Tempo testnet? Install `frontpage-profile-dev` as well — it overrides the base URL and network.
+Testing against a dev box / Tempo testnet? Install the dev twin too: `npx skills add DFectuoso/frontpage-sh-skills-dev` (gives you `frontpage-profile-dev`, which overrides the base URL and network).
 
 ## API
 

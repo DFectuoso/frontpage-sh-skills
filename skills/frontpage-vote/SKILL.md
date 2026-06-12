@@ -21,7 +21,7 @@ npx skills add DFectuoso/frontpage-sh-skills                  # all frontpage sk
 npx skills add DFectuoso/frontpage-sh-skills/frontpage-vote   # just this one
 ```
 
-Testing against a dev box / Tempo testnet? Install `frontpage-vote-dev` as well — it overrides the base URL and network.
+Testing against a dev box / Tempo testnet? Install the dev twin too: `npx skills add DFectuoso/frontpage-sh-skills-dev` (gives you `frontpage-vote-dev`, which overrides the base URL and network).
 
 ## API
 

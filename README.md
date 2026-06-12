@@ -19,7 +19,7 @@ npx skills add DFectuoso/frontpage-sh-skills/frontpage-buy-ad    # one skill
 
 ## Dev / testnet variants
 
-Each skill has a `-dev` twin (`frontpage-buy-ad-dev`, `frontpage-vote-dev`, `frontpage-profile-dev`) for running against a dev instance: base URL from `$FRONTPAGE_BASE_URL` (default `http://localhost:3000`) and Tempo **Moderato testnet** USDC (`MPPX_RPC_URL=https://rpc.moderato.tempo.xyz`, chain 42431). Agents only use them when you explicitly say dev/testnet.
+Each skill has a `-dev` twin in the separate [DFectuoso/frontpage-sh-skills-dev](https://github.com/DFectuoso/frontpage-sh-skills-dev) repo (`npx skills add DFectuoso/frontpage-sh-skills-dev`) for running against a dev instance: base URL from `$FRONTPAGE_BASE_URL` (default `http://localhost:3000`) and Tempo **Moderato testnet** USDC. Agents only use them when you explicitly say dev/testnet.
 
 ## Then just say
 

@@ -16,7 +16,7 @@ npx skills add DFectuoso/frontpage-sh-skills                     # all frontpage
 npx skills add DFectuoso/frontpage-sh-skills/frontpage-buy-ad    # just this one
 ```
 
-Testing against a dev box / Tempo testnet? Install `frontpage-buy-ad-dev` as well — it overrides the base URL and network.
+Testing against a dev box / Tempo testnet? Install the dev twin too: `npx skills add DFectuoso/frontpage-sh-skills-dev` (gives you `frontpage-buy-ad-dev`, which overrides the base URL and network).
 
 ## Pricing
 
