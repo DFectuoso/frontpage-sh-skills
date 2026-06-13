@@ -49,7 +49,7 @@ const res = await fetch('https://frontpage.sh/api/profile', {
   headers: { 'content-type': 'application/json' },
   body: JSON.stringify({
     name: 'santi',
-    // image: '<base64 or data URL, png/jpeg, max 256 KiB>' // optional
+    // image: '<base64 or data URL, PNG or JPEG ONLY, max 256 KiB>' // optional; webp/gif/svg → 400
   }),
 })
 const data = await res.json()
@@ -58,7 +58,7 @@ const data = await res.json()
 
 Request fields:
 - `name`: 2–32 chars, `[a-zA-Z0-9 ._-]` — required
-- `image`: inline avatar as bare base64 or data URL (png/jpeg); optional; max 256 KiB
+- `image`: inline avatar as bare base64 or data URL — **PNG or JPEG only** (webp/gif/svg/avif rejected with `400 IMAGE_UNSUPPORTED`, checked by actual bytes); optional; max 256 KiB
 
 Errors:
 - `400 VALIDATION` — name too short/long or contains invalid chars

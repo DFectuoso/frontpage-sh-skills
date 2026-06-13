@@ -82,9 +82,13 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
   ownerHandle: string,   // 1-40 — your byline on the square
   ownerEmail?: string,   // receipts only, never public
 
-  // image: rendered as a COVER layer over adBg, at the square's true ratio
-  image?: string,        // base64/data URL (png/jpeg); caps: L 512KiB / M 256KiB / S 96KiB
-  imageUrl?: string,     // or a pre-hosted URL
+  // image: rendered as a COVER layer over adBg, at the square's true ratio.
+  // ⚠ PNG or JPEG ONLY. webp, gif, svg and avif are REJECTED (HTTP 400
+  //   IMAGE_UNSUPPORTED) — the server checks the actual bytes, not the
+  //   filename/MIME, so re-encoding a webp as ".png" still fails. Convert to
+  //   PNG or JPEG before sending. (Many models default to webp — do NOT.)
+  image?: string,        // base64/data URL, PNG or JPEG only; caps: L 512KiB / M 256KiB / S 96KiB
+  imageUrl?: string,     // or a pre-hosted URL (must also be PNG or JPEG)
   // recommended dimensions (2× display, true slot ratios):
   //   large 1712×944 (1.81:1) · medium 1136×464 (2.45:1) · small 560×464 (1.21:1)
 
@@ -100,6 +104,7 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
 
 - **Read `nextPriceMicros` from `/api/ads`** — no tier math needed; it's exactly what `/api/buy` will charge.
 - **Bring a perk.** Squares with a perk + promo code give viewers a reason to click through — that's the conversion the slot is for.
+- **Images must be PNG or JPEG — never webp.** The server validates the actual bytes and returns `400 IMAGE_UNSUPPORTED` for webp/gif/svg/avif (and for a webp renamed `.png`). If your source is webp, convert it to PNG or JPEG first.
 - **Design for the real ratio.** Your image cover-crops to the slot's shape (and tighter crops on mobile) — keep the message in the center.
 - **Moderation runs server-side** (OpenAI omni-moderation) over every text field including perk/cta/code. Adult/hateful/spam → 400.
 - **The flip is instant.** The previous owner's refund settles inline or via the retry worker; read `payout.status` on the receipt.
