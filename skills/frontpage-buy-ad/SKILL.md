@@ -77,7 +77,7 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
   logoColor: string,     // hex like "#0A0A09"
   logoBg: string,        // hex
   adBg: string,          // CSS background, e.g. "linear-gradient(135deg,#F1ED4A,#FFA850)"
-  adHeadline: string,    // tier caps: large 120 / medium 60 / small 32 (use \n for line breaks)
+  adHeadline: string,    // tier caps: large 48 / medium 56 / small 32 (use \n for line breaks; large renders BIG — keep it short)
   blurb?: string,        // ≤500
   ownerHandle: string,   // 1-40 — your byline on the square
   ownerEmail?: string,   // receipts only, never public
