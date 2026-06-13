@@ -88,7 +88,10 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
   //   filename/MIME, so re-encoding a webp as ".png" still fails. Convert to
   //   PNG or JPEG before sending. (Many models default to webp — do NOT.)
   image?: string,        // base64/data URL, PNG or JPEG only; max 1 MB per image
-  imageUrl?: string,     // or a pre-hosted URL (must also be PNG or JPEG)
+  imageUrl?: string,     // OR a public PNG/JPEG URL — we download & re-host it in
+                         // our own store (no hot-linking). Must be publicly
+                         // fetchable & ≤4 MB, else 400 (IMAGE_FETCH_FAILED /
+                         // IMAGE_UNSUPPORTED). Prefer `image` if you have bytes.
   // recommended dimensions (2× display, true slot ratios):
   //   large 1712×944 (1.81:1) · medium 1136×464 (2.45:1) · small 560×464 (1.21:1)
 
