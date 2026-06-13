@@ -87,7 +87,7 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
   //   IMAGE_UNSUPPORTED) — the server checks the actual bytes, not the
   //   filename/MIME, so re-encoding a webp as ".png" still fails. Convert to
   //   PNG or JPEG before sending. (Many models default to webp — do NOT.)
-  image?: string,        // base64/data URL, PNG or JPEG only; caps: L 512KiB / M 256KiB / S 96KiB
+  image?: string,        // base64/data URL, PNG or JPEG only; max 1 MB per image
   imageUrl?: string,     // or a pre-hosted URL (must also be PNG or JPEG)
   // recommended dimensions (2× display, true slot ratios):
   //   large 1712×944 (1.81:1) · medium 1136×464 (2.45:1) · small 560×464 (1.21:1)
@@ -106,5 +106,5 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
 - **Bring a perk.** Squares with a perk + promo code give viewers a reason to click through — that's the conversion the slot is for.
 - **Images must be PNG or JPEG — never webp.** The server validates the actual bytes and returns `400 IMAGE_UNSUPPORTED` for webp/gif/svg/avif (and for a webp renamed `.png`). If your source is webp, convert it to PNG or JPEG first.
 - **Design for the real ratio.** Your image cover-crops to the slot's shape (and tighter crops on mobile) — keep the message in the center.
-- **Moderation runs server-side** (OpenAI omni-moderation) over every text field including perk/cta/code. Adult/hateful/spam → 400.
+- **Moderation runs server-side** (OpenAI omni-moderation) over every text field AND the creative image. Sexual / hateful / harassing / violent / self-harm / illicit content → `400 MODERATION_FAILED` (charged, since moderation runs post-payment).
 - **The flip is instant.** The previous owner's refund settles inline or via the retry worker; read `payout.status` on the receipt.
