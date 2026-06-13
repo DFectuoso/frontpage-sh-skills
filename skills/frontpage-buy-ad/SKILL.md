@@ -97,6 +97,8 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
   ctaLabel?: string,     // ≤24 — custom button text, e.g. "get the deal"
   perk?: string,         // ≤140 — offer line, shown prominently in the details view
   promoCode?: string,    // ≤24 — copyable code next to the perk
+  xHandle?: string,      // optional X/Twitter handle (@handle, bare, or x.com URL)
+                         // — @mentioned in the auto-tweet when the square flips
 }
 ```
 
@@ -104,6 +106,7 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
 
 - **Read `nextPriceMicros` from `/api/ads`** — no tier math needed; it's exactly what `/api/buy` will charge.
 - **Bring a perk.** Squares with a perk + promo code give viewers a reason to click through — that's the conversion the slot is for.
+- **Pass the brand's `xHandle`.** Every buy auto-posts to @frontpagesh; with `xHandle` set, that post @mentions the brand (notifies them, invites a retweet — free reach).
 - **Images must be PNG or JPEG — never webp.** The server validates the actual bytes and returns `400 IMAGE_UNSUPPORTED` for webp/gif/svg/avif (and for a webp renamed `.png`). If your source is webp, convert it to PNG or JPEG first.
 - **Design for the real ratio.** Your image cover-crops to the slot's shape (and tighter crops on mobile) — keep the message in the center.
 - **Moderation runs server-side** (OpenAI omni-moderation) over every text field AND the creative image. Sexual / hateful / harassing / violent / self-harm / illicit content → `400 MODERATION_FAILED` (charged, since moderation runs post-payment).
