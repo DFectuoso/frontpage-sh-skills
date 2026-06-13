@@ -16,11 +16,11 @@ Payment is the login — the wallet that pays owns the name. Names are non-uniqu
 ## Install
 
 ```bash
-npx skills add DFectuoso/frontpage-sh-skills                     # all frontpage skills
-npx skills add DFectuoso/frontpage-sh-skills/frontpage-profile   # just this one
+npx skills add DFectuoso/frontpage-sh-skills --copy                     # all frontpage skills
+npx skills add DFectuoso/frontpage-sh-skills/frontpage-profile --copy   # just this one
 ```
 
-Testing against a dev box / Tempo testnet? Install the dev twin too: `npx skills add DFectuoso/frontpage-sh-skills-dev` (gives you `frontpage-profile-dev`, which overrides the base URL and network).
+Testing against a dev box / Tempo testnet? Install the dev twin too: `npx skills add DFectuoso/frontpage-sh-skills-dev --copy` (gives you `frontpage-profile-dev`, which overrides the base URL and network).
 
 ## API
 

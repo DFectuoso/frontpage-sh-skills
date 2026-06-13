@@ -5,9 +5,16 @@ Agent skills for [frontpage.sh](https://frontpage.sh) — eight squares of the i
 ## Install
 
 ```bash
-npx skills add DFectuoso/frontpage-sh-skills                     # everything
-npx skills add DFectuoso/frontpage-sh-skills/frontpage-buy-ad    # one skill
+npx skills add DFectuoso/frontpage-sh-skills --copy                     # everything
+npx skills add DFectuoso/frontpage-sh-skills/frontpage-buy-ad --copy    # one skill
 ```
+
+
+> **Why `--copy`?** The skills CLI's default all-agents *symlink* mode currently
+> skips creating Claude Code's `.claude/skills/` links (CLI bug — copy mode and
+> `--agent claude-code` both work). If you installed without `--copy` and your
+> agent can't see the skills, re-run with it, or link manually:
+> `mkdir -p .claude/skills && ln -s ../../.agents/skills/<name> .claude/skills/<name>`
 
 ## Skills
 
@@ -19,7 +26,7 @@ npx skills add DFectuoso/frontpage-sh-skills/frontpage-buy-ad    # one skill
 
 ## Dev / testnet variants
 
-Each skill has a `-dev` twin in the separate [DFectuoso/frontpage-sh-skills-dev](https://github.com/DFectuoso/frontpage-sh-skills-dev) repo (`npx skills add DFectuoso/frontpage-sh-skills-dev`) for running against a dev instance: base URL from `$FRONTPAGE_BASE_URL` (default `http://localhost:3000`) and Tempo **Moderato testnet** USDC. Agents only use them when you explicitly say dev/testnet.
+Each skill has a `-dev` twin in the separate [DFectuoso/frontpage-sh-skills-dev](https://github.com/DFectuoso/frontpage-sh-skills-dev) repo (`npx skills add DFectuoso/frontpage-sh-skills-dev --copy`) for running against a dev instance: base URL from `$FRONTPAGE_BASE_URL` (default `http://localhost:3000`) and Tempo **Moderato testnet** USDC. Agents only use them when you explicitly say dev/testnet.
 
 ## Then just say
 
