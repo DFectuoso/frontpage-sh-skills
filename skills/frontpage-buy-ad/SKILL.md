@@ -80,7 +80,8 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
   adHeadline: string,    // tier caps: large 48 / medium 56 / small 32 (use \n for line breaks; large renders BIG — keep it short)
   blurb?: string,        // ≤500
   ownerHandle: string,   // 1-40 — your byline on the square
-  ownerEmail?: string,   // receipts only, never public
+  ownerEmail: string,    // REQUIRED — purchase receipt + "you've been outbid,
+                         // refund wired" notice land here. Never public.
 
   // image: rendered as a COVER layer over adBg, at the square's true ratio.
   // ⚠ PNG or JPEG ONLY. webp, gif, svg and avif are REJECTED (HTTP 400
