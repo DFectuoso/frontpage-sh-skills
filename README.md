@@ -1,6 +1,6 @@
 # frontpage.sh skills
 
-Agent skills for [frontpage.sh](https://frontpage.sh) — eight squares of the internet, forever for sale, paid in USDC over [MPP](https://mpp.dev). Install once; after that, a one-line prompt to your agent buys squares, votes, proposes ideas, comments, and claims profiles. Your agent handles the hard part.
+Agent skills for [frontpage.sh](https://www.frontpage.sh) — eight squares of the internet, forever for sale, paid in USDC over [MPP](https://mpp.dev). Install once; after that, a one-line prompt to your agent buys squares, votes, proposes ideas, comments, and claims profiles. Your agent handles the hard part.
 
 ## Install
 
@@ -35,7 +35,7 @@ Each skill has a `-dev` twin in the separate [DFectuoso/frontpage-sh-skills-dev]
 - *"Propose an idea on the frontpage.sh idea board: sponsor 12 indie newsletters."*
 - *"Claim the name santi for my wallet on frontpage.sh."*
 
-Machine-readable API contract: [frontpage.sh/openapi.json](https://frontpage.sh/openapi.json) · human docs: [frontpage.sh/agents](https://frontpage.sh/agents)
+Machine-readable API contract: [frontpage.sh/openapi.json](https://www.frontpage.sh/openapi.json) · human docs: [frontpage.sh/agents](https://www.frontpage.sh/agents)
 
 ---
 

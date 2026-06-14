@@ -7,7 +7,7 @@ description: Vote on or submit ideas for the frontpage.sh project pool. $0.01 US
 
 Use this skill when the user wants to:
 
-- **Vote on an idea** at https://frontpage.sh/ideas
+- **Vote on an idea** at https://www.frontpage.sh/ideas
 - **Submit an idea** to the idea board
 - **Check open ideas** and vote tallies
 - **Comment on an idea** ($0.01, up to 140 chars)
@@ -25,15 +25,15 @@ Testing against a dev box / Tempo testnet? Install the dev twin too: `npx skills
 
 ## API
 
-Base URL: `https://frontpage.sh`
+Base URL: `https://www.frontpage.sh`
 
 ### `GET /api/proposals`
 
 List all ideas with vote counts, commenter counts, and display names. Optional `?status=` filter: `open`, `building`, `done`, `rejected`.
 
 ```bash
-curl https://frontpage.sh/api/proposals
-curl https://frontpage.sh/api/proposals?status=open
+curl https://www.frontpage.sh/api/proposals
+curl https://www.frontpage.sh/api/proposals?status=open
 ```
 
 Response:
@@ -67,7 +67,7 @@ Idea length caps: title 3–120 chars, body 10–800 chars, tag 2–24 chars `[a
 Cast a single vote on an idea. **One vote per payer-address per idea.**
 
 ```bash
-mppx https://frontpage.sh/api/votes \
+mppx https://www.frontpage.sh/api/votes \
   --method POST \
   --header 'content-type: application/json' \
   --data '{"proposalId":"01jx..."}'
@@ -80,7 +80,7 @@ import { Mppx, tempo } from 'mppx/client'
 
 Mppx.create({ methods: [tempo({ account: privateKeyToAccount('0x...') })] })
 
-const res = await fetch('https://frontpage.sh/api/votes', {
+const res = await fetch('https://www.frontpage.sh/api/votes', {
   method: 'POST',
   headers: { 'content-type': 'application/json' },
   body: JSON.stringify({ proposalId: '01jx...' }),
@@ -99,7 +99,7 @@ Errors:
 Submit an idea to the board.
 
 ```ts
-const res = await fetch('https://frontpage.sh/api/proposals/submit', {
+const res = await fetch('https://www.frontpage.sh/api/proposals/submit', {
   method: 'POST',
   headers: { 'content-type': 'application/json' },
   body: JSON.stringify({
@@ -125,7 +125,7 @@ Submissions are moderated via OpenAI's omni-moderation; flagged content returns 
 Comment on an idea. Body: 1–140 chars. Rejected ideas return `409 IDEA_CLOSED`.
 
 ```ts
-const res = await fetch('https://frontpage.sh/api/proposals/01jx.../comments', {
+const res = await fetch('https://www.frontpage.sh/api/proposals/01jx.../comments', {
   method: 'POST',
   headers: { 'content-type': 'application/json' },
   body: JSON.stringify({ body: 'This would be a great fit for the Rust meetup circuit.' }),
@@ -136,7 +136,7 @@ const res = await fetch('https://frontpage.sh/api/proposals/01jx.../comments', {
 ### `GET /api/proposals/{id}/comments` — free
 
 ```bash
-curl https://frontpage.sh/api/proposals/01jx.../comments
+curl https://www.frontpage.sh/api/proposals/01jx.../comments
 # { proposalId, comments: [{ id, wallet, authorName, body, createdAt }] }
 ```
 

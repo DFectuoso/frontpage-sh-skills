@@ -24,14 +24,14 @@ Testing against a dev box / Tempo testnet? Install the dev twin too: `npx skills
 
 ## API
 
-Base URL: `https://frontpage.sh`
+Base URL: `https://www.frontpage.sh`
 
 ### `POST /api/profile` — $0.01 via MPP
 
 Claim or update the display name (and optional avatar) for the paying wallet.
 
 ```bash
-mppx https://frontpage.sh/api/profile \
+mppx https://www.frontpage.sh/api/profile \
   --method POST \
   --header 'content-type: application/json' \
   --data '{"name":"santi"}'
@@ -44,7 +44,7 @@ import { Mppx, tempo } from 'mppx/client'
 
 Mppx.create({ methods: [tempo({ account: privateKeyToAccount('0x...') })] })
 
-const res = await fetch('https://frontpage.sh/api/profile', {
+const res = await fetch('https://www.frontpage.sh/api/profile', {
   method: 'POST',
   headers: { 'content-type': 'application/json' },
   body: JSON.stringify({
@@ -71,7 +71,7 @@ Errors:
 Fetch a wallet's public profile and activity summary.
 
 ```bash
-curl https://frontpage.sh/api/profiles/0xabc...def
+curl https://www.frontpage.sh/api/profiles/0xabc...def
 ```
 
 Response:

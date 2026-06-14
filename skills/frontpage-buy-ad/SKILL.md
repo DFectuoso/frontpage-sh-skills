@@ -31,12 +31,12 @@ USDC on Tempo, 6 decimals; all API amounts are µUSDC integers.
 
 ## The flow (MPP — the only payment path)
 
-Base URL: `https://frontpage.sh` · full machine-readable contract: `https://frontpage.sh/openapi.json`
+Base URL: `https://www.frontpage.sh` · full machine-readable contract: `https://www.frontpage.sh/openapi.json`
 
 ### 1. `GET /api/ads` — squares, current prices, and what the next buy costs
 
 ```bash
-curl https://frontpage.sh/api/ads
+curl https://www.frontpage.sh/api/ads
 # each ad includes: currentPrice, nextPriceMicros, tier, slot, ctaLabel/perk/promoCode, …
 ```
 
@@ -52,7 +52,7 @@ import { Mppx, tempo } from 'mppx/client'
 
 Mppx.create({ methods: [tempo({ account: privateKeyToAccount('0x...') })] })
 
-const res = await fetch('https://frontpage.sh/api/buy', {
+const res = await fetch('https://www.frontpage.sh/api/buy', {
   method: 'POST',
   headers: { 'content-type': 'application/json' },
   body: JSON.stringify({ previewToken: '<token from /api/preview>' }),
