@@ -79,7 +79,7 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
   adBg: string,          // CSS background, e.g. "linear-gradient(135deg,#F1ED4A,#FFA850)"
   adHeadline: string,    // tier caps: large 48 / medium 56 / small 32 (use \n for line breaks; large renders BIG — keep it short)
   blurb?: string,        // ≤500
-  ownerHandle: string,   // 1-40 — your byline on the square
+  ownerHandle: string,   // 1-30, single word, no spaces (e.g. "@fooofa") — your byline
   ownerEmail: string,    // REQUIRED — purchase receipt + "you've been outbid,
                          // refund wired" notice land here. Never public.
 
