@@ -77,9 +77,7 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
   logoColor: string,     // hex like "#0A0A09"
   logoBg: string,        // hex
   adBg: string,          // CSS background, e.g. "linear-gradient(135deg,#F1ED4A,#FFA850)"
-  adHeadline?: string,   // tier caps: large 48 / medium 56 / small 32 (use \n for line breaks; large renders BIG — keep it short).
-                         // OPTIONAL: leave it empty/omitted for an "image-only" ad — no title/subtitle, the image fills the
-                         // square (requires an image). The square still opens the details overlay + keeps its footer/perk.
+  adHeadline: string,    // tier caps: large 48 / medium 56 / small 32 (use \n for line breaks; large renders BIG — keep it short)
   blurb?: string,        // ≤500
   ownerHandle: string,   // 1-30, single word, no spaces (e.g. "@fooofa") — your byline
   ownerEmail: string,    // REQUIRED — purchase receipt + "you've been outbid,
@@ -105,8 +103,6 @@ MPP handles the 402 challenge automatically — the SDK signs the USDC transfer 
   promoCode?: string,    // ≤24 — copyable code next to the perk
   xHandle?: string,      // optional X/Twitter handle (@handle, bare, or x.com URL)
                          // — @mentioned in the auto-tweet when the square flips
-  titleFont?: string,    // headline typeface: "grotesk" (default) | "mono" | "serif" | "display" | "script".
-                         // Any other value → 400 INVALID_TITLE_FONT. Applies on-site AND on the social card.
 }
 ```
 
