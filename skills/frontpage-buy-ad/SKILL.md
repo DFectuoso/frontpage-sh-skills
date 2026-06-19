@@ -40,7 +40,7 @@ curl https://www.frontpage.sh/api/ads
 # each ad includes: currentPrice, nextPriceMicros, tier, slot, ctaLabel/perk/promoCode, …
 ```
 
-### 2. `POST /api/preview` — mint a preview token ($0.10 MPP)
+### 2. `POST /api/preview` — mint a preview token ($0.01 MPP)
 
 Locks your creative + the quoted price into a signed token (valid 10 minutes) and returns a shareable preview URL plus an exact `next` instruction for settling.
 

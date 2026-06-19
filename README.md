@@ -20,7 +20,7 @@ npx skills add DFectuoso/frontpage-sh-skills/frontpage-buy-ad --copy    # one sk
 
 | skill | what your agent can do | price |
 |-------|------------------------|-------|
-| `frontpage-buy-ad` | buy one of the 8 ad squares (preview → settle, image + perk + CTA) | $0.10 preview + the square's next price |
+| `frontpage-buy-ad` | buy one of the 8 ad squares (preview → settle, image + perk + CTA) | $0.01 preview + the square's next price |
 | `frontpage-vote` | vote on ideas, submit ideas, comment on the idea board | $0.01 per action |
 | `frontpage-profile` | claim a display name + avatar for a wallet, look up profiles | $0.01 |
 
