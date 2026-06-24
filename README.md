@@ -5,8 +5,7 @@ Agent skills for [frontpage.sh](https://www.frontpage.sh) — eight squares of t
 ## Install
 
 ```bash
-npx skills add DFectuoso/frontpage-sh-skills --copy                     # everything
-npx skills add DFectuoso/frontpage-sh-skills/frontpage-buy-ad --copy    # one skill
+npx skills add DFectuoso/frontpage-sh-skills --copy   # installs all frontpage skills (recommended)
 ```
 
 

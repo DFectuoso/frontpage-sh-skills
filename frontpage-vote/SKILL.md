@@ -17,8 +17,7 @@ Every action costs **$0.01 USDC** paid via the [Machine Payments Protocol](https
 ## Install
 
 ```bash
-npx skills add DFectuoso/frontpage-sh-skills --copy                  # all frontpage skills
-npx skills add DFectuoso/frontpage-sh-skills/frontpage-vote --copy   # just this one
+npx skills add DFectuoso/frontpage-sh-skills --copy   # all frontpage skills (recommended)
 ```
 
 Testing against a dev box / Tempo testnet? Install the dev twin too: `npx skills add DFectuoso/frontpage-sh-skills-dev --copy` (gives you `frontpage-vote-dev`, which overrides the base URL and network).

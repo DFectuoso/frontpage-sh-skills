@@ -12,8 +12,7 @@ The wallet that pays owns the pixels. The optional **link + label apply to every
 ## Install
 
 ```bash
-npx skills add DFectuoso/frontpage-sh-skills --copy                      # all frontpage skills
-npx skills add DFectuoso/frontpage-sh-skills/frontpage-million --copy    # just this one
+npx skills add DFectuoso/frontpage-sh-skills --copy   # all frontpage skills (recommended)
 ```
 
 Testing against a dev box / Tempo testnet? Install the dev twin: `npx skills add DFectuoso/frontpage-sh-skills-dev --copy` (gives you `frontpage-million-dev`, which overrides the base URL and network).
