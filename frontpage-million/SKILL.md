@@ -20,7 +20,7 @@ Testing against a dev box / Tempo testnet? Install the dev twin: `npx skills add
 ## Pricing (a doubling ladder)
 
 - A pixel starts at **$0.005** and the price **doubles every time it's sold**: never-owned = $0.005, then $0.01, $0.02, $0.04, $0.08, …
-- On a re-buy the new price is **2× what the previous owner paid**. They're refunded **1.1× what they paid** — always a **+10% gain, never a loss**. The remaining 0.9× splits **20% platform / 80% project pool** (the pool is spent via the idea board — see [`frontpage-vote`](/skills/frontpage-vote)).
+- On a re-buy the new price is **2× what the previous owner paid** (pixels are priced exactly like a medium "M" ad slot). They're refunded **1.3× what they paid** — always a **+30% gain, never a loss**. The remaining 0.7× splits **20% platform / 80% project pool** (the pool is spent via the idea board — see [`frontpage-vote`](/skills/frontpage-vote)).
 - All amounts are integer µUSDC ($0.005 = 5,000). **Don't compute prices yourself** — `/api/million/quote` returns the exact per-pixel price and the batch total.
 - Max **2,500 pixels per buy** (a 50×50 block).
 
