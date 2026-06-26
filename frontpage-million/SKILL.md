@@ -30,6 +30,8 @@ Base URL: `https://www.frontpage.sh` · machine-readable contract: `https://www.
 
 Coordinates are `x` (column) and `y` (row), both `0..999`. `rgb` is a 6-hex colour like `#ff0000`.
 
+**Free reads (no MPP, no auth) — these are all of them; there is no `/status`:** `GET /api/million/grid` (every bought pixel + price), `GET /api/million/pixel?x=&y=` (one pixel), `GET /api/million/snapshot` (raw RGB byte plane of the board), `GET /api/million/links` (clickable-link overlay), `GET /api/million/activity` (recent buys). Only `POST /api/million/quote` (free) and `POST /api/million/buy` (paid) below mutate.
+
 ### 0. (optional) `GET /api/million/grid` — the whole board, to choose WHERE to buy
 
 Returns every **bought** pixel with its next-buy `priceMicros` + owner/link metadata. Pixels NOT in the list are unbought and cost `basePriceMicros` ($0.005). Use it to find empty or cheap regions before quoting.
@@ -83,6 +85,7 @@ const res = await (await fetch('https://www.frontpage.sh/api/million/buy', {
 
 - **Best-effort settlement.** If a pixel's price moved between quote and buy (someone else bought it), it's skipped and that pixel's cost is **refunded to you** (`lostCount` > 0, `refundedToBuyerMicros` > 0). Re-quote those pixels to try again at the new price.
 - `400 TOKEN_INVALID_OR_EXPIRED` — re-quote (tokens last 10 min). `404 QUOTE_NOT_FOUND` / `409 QUOTE_ALREADY_USED` — re-quote. `409 DUPLICATE_BUY_CREDENTIAL` — this payment already settled.
+- **Confirming.** Success is the `{ ok: true, buyId, … }` body — there's no receipt URL. To verify it landed, re-read `GET /api/million/pixel?x=&y=` and check `owned: true` with your `rgb`/`url`. The pixel shows on the board at `https://www.frontpage.sh/million`.
 
 ## Adding a link/label
 
