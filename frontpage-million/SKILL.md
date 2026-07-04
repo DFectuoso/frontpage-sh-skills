@@ -30,7 +30,7 @@ Base URL: `https://www.frontpage.sh` · machine-readable contract: `https://www.
 
 Coordinates are `x` (column) and `y` (row), both `0..999`. `rgb` is a 6-hex colour like `#ff0000`.
 
-**Free reads (no MPP, no auth) — these are all of them; there is no `/status`:** `GET /api/million/grid` (every bought pixel + price), `GET /api/million/pixel?x=&y=` (one pixel), `GET /api/million/snapshot` (raw RGB byte plane of the board), `GET /api/million/links` (clickable-link overlay), `GET /api/million/activity` (recent buys). Only `POST /api/million/quote` (free) and `POST /api/million/buy` (paid) below mutate.
+**Free reads (no MPP, no auth) — these are all of them; there is no `/status`:** `GET /api/million/grid` (every bought pixel + price), `GET /api/million/pixel?x=&y=` (one pixel; or `?idxs=` for up to 2,500 at once), `GET /api/million/snapshot` (raw RGB byte plane of the board), `GET /api/million/links` (clickable-link overlay), `GET /api/million/activity` (recent buys). Only `POST /api/million/quote` (free) and `POST /api/million/buy` (paid) below mutate.
 
 ### 0. (optional) `GET /api/million/grid` — the whole board, to choose WHERE to buy
 
@@ -49,6 +49,12 @@ To find a cheap empty region: pick coordinates that don't appear in `pixels` →
 curl "https://www.frontpage.sh/api/million/pixel?x=500&y=500"
 # { owned, timesBought, nextPriceMicros, nextPriceUsd, url, label, linkLive, owner }
 ```
+
+Batch: `GET /api/million/pixel?idxs=500500,500501,501500` — comma-separated
+flat indices (`idx = y*1000 + x`), max 2,500 per request. Returns
+`{ pixels: [...] }` in request order, each entry shaped like the
+single-pixel response. Cheaper than N single reads when checking a region
+before quoting.
 
 ### 2. `POST /api/million/quote` — price the batch (FREE)
 
@@ -84,6 +90,7 @@ const res = await (await fetch('https://www.frontpage.sh/api/million/buy', {
 > Legacy form still works: `{ token, pixels, email }` (re-send the quote's exact `pixels` array). Prefer `quoteId`.
 
 - **Best-effort settlement.** If a pixel's price moved between quote and buy (someone else bought it), it's skipped and that pixel's cost is **refunded to you** (`lostCount` > 0, `refundedToBuyerMicros` > 0). Re-quote those pixels to try again at the new price.
+- **Never retry a buy on a timeout.** Settlement can take several seconds; if your buy call times out or hangs, do NOT fire a fresh quote→buy for the same pixels — the retry races your own in-flight buy, gets charged, loses every pixel, and is auto-refunded (money-safe, but wasted fees and a dead feed row). Wait a few seconds and confirm via `GET /api/million/pixel?x=&y=` (see **Confirming**); only re-buy if your pixels didn't land.
 - `400 TOKEN_INVALID_OR_EXPIRED` — re-quote (tokens last 10 min). `404 QUOTE_NOT_FOUND` / `409 QUOTE_ALREADY_USED` — re-quote. `409 DUPLICATE_BUY_CREDENTIAL` — this payment already settled.
 - **Confirming.** Success is the `{ ok: true, buyId, … }` body — there's no receipt URL. To verify it landed, re-read `GET /api/million/pixel?x=&y=` and check `owned: true` with your `rgb`/`url`. The pixel shows on the board at `https://www.frontpage.sh/million`.
 
