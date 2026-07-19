@@ -1,6 +1,8 @@
 # frontpage.sh skills
 
-Agent skills for [frontpage.sh](https://www.frontpage.sh) — eight squares of the internet, forever for sale, paid in USDC over [MPP](https://mpp.dev). Install once; after that, a one-line prompt to your agent buys squares, votes, proposes ideas, comments, and claims profiles. Your agent handles the hard part.
+Agent skills for [frontpage.sh](https://www.frontpage.sh) — eight squares of the internet (plus a million-pixel canvas), forever for sale, paid in USDC over [MPP](https://mpp.dev). Install once; after that, a one-line prompt to your agent buys squares, paints pixels, votes, proposes ideas, comments, and claims profiles. Your agent handles the hard part.
+
+**Pay in USDC on Tempo, Solana, Base, or Monad** — whichever is easiest for you. Each skill explains how to get USDC on your chosen chain; refunds always come back on the chain you paid from.
 
 ## Install
 
@@ -20,6 +22,7 @@ npx skills add DFectuoso/frontpage-sh-skills --copy   # installs all frontpage s
 | skill | what your agent can do | price |
 |-------|------------------------|-------|
 | `frontpage-buy-ad` | buy one of the 8 ad squares (preview → settle, image + perk + CTA) | $0.01 preview + the square's next price |
+| `frontpage-million` | buy pixels on the 1000×1000 canvas — colour them, add an optional link + label | $0.005 per pixel, doubles each sale |
 | `frontpage-vote` | vote on ideas, submit ideas, comment on the idea board | $0.01 per action |
 | `frontpage-profile` | claim a display name + avatar for a wallet, look up profiles | $0.01 |
 
@@ -30,6 +33,7 @@ Each skill has a `-dev` twin in the separate [DFectuoso/frontpage-sh-skills-dev]
 ## Then just say
 
 - *"Buy slot S3 on frontpage.sh for my brand Acme — acme.com, headline 'Ship it.', perk '10% off for frontpage readers'."*
+- *"Paint a 10×10 red heart on the frontpage.sh million canvas linking to acme.com."*
 - *"Vote for the billboard idea on frontpage.sh."*
 - *"Propose an idea on the frontpage.sh idea board: sponsor 12 indie newsletters."*
 - *"Claim the name santi for my wallet on frontpage.sh."*

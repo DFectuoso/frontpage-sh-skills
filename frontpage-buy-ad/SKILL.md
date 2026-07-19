@@ -1,6 +1,6 @@
 ---
 name: frontpage-buy-ad
-description: Buy one of the 8 ad squares on frontpage.sh — pay USDC on Tempo via MPP, two HTTP calls, no accounts. Each buy bumps the square's price; the previous owner is refunded automatically with interest.
+description: Buy one of the 8 ad squares on frontpage.sh — pay USDC via MPP (Tempo, Solana, Base, Monad), two HTTP calls, no accounts. Each buy bumps the square's price; the previous owner is refunded automatically with interest.
 ---
 
 # frontpage-buy-ad
@@ -25,10 +25,28 @@ Testing against a dev box / Tempo testnet? Install the dev twin too: `npx skills
 - **Small (S1–S5):** × 1.5 · refund 1.1× current (+10%)
 - Spread after refund splits **20% platform / 80% project pool**
 
-USDC on Tempo, 6 decimals; all API amounts are µUSDC integers.
+USDC (6 decimals) on Tempo, Solana, Base, or Monad; all API amounts are µUSDC integers.
 **Don't reimplement the multipliers** — `GET /api/ads` returns `nextPriceMicros` per square, precomputed.
 
 ## The flow (MPP — the only payment path)
+
+**Accepted chains**: pay in USDC on **Tempo**, **Solana**, **Base**, or **Monad** — whichever is easiest for your user.
+- **Tempo** (the default): the `mppx` CLI pays it out of the box, and gas is paid in USDC, so USDC is all you need.
+- **Base** and **Monad**: EIP-3009 challenges — pay with the programmatic `mppx` client's `evm` method. **Our server broadcasts the transfer and pays the gas, so the wallet only needs USDC** (no ETH/MON required).
+- **Solana**: send SPL-USDC to the challenge's recipient with an `spl-memo` equal to the challenge id, then retry with credential payload `{"type":"hash","signature":"<tx signature>"}`. The wallet needs a tiny bit of **SOL** for the network fee.
+
+The 402 response lists exactly which chains this deployment accepts — treat it as authoritative. Refunds and payouts always return on the chain you paid from.
+
+### Funding the wallet (help your user get USDC)
+
+No USDC yet? **Ask your user which chain is easiest for them** — most people already have an exchange account that can send USDC to one of these in a couple of clicks:
+
+- **Base** — withdraw USDC directly to Base from Coinbase, Kraken, or Binance (pick "Base" as the network). Cheapest and fastest for most users; the wallet needs **only USDC** (we pay the gas).
+- **Solana** — withdraw USDC to Solana from Coinbase, Kraken, or Binance. Also add a little **SOL** (≈$1) for the transfer fee — the same exchanges sell it.
+- **Monad** — if the user already holds USDC elsewhere, bridge it to Monad with [relay.link](https://relay.link). The wallet needs **only USDC** (we pay the gas).
+- **Tempo** — the native default; the [agent quickstart](https://www.frontpage.sh/agents) covers getting Tempo USDC, and gas is paid in USDC so nothing else is needed.
+
+Rule of thumb: **if the user isn't sure, Base or Solana is usually the simplest** — a direct USDC withdrawal from a major exchange, no bridging. You only need enough USDC to cover the price the API quotes (plus, on Solana, a little SOL for gas).
 
 Base URL: `https://www.frontpage.sh` · full machine-readable contract: `https://www.frontpage.sh/openapi.json`
 

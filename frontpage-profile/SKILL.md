@@ -13,6 +13,25 @@ Use this skill when the user wants to:
 
 Payment is the login — the wallet that pays owns the name. Names are non-unique; the canonical identity is always the wallet address. The UI shows `name·tail` where tail = the last 4 chars of the address (e.g. `santi·1a2b`). Claiming costs **$0.01 USDC** via [MPP](https://mpp.dev). Your agent handles the hard part.
 
+**Accepted chains**: pay in USDC on **Tempo**, **Solana**, **Base**, or **Monad** — whichever is easiest for your user.
+- **Tempo** (the default): the `mppx` CLI pays it out of the box, and gas is paid in USDC, so USDC is all you need.
+- **Base** and **Monad**: EIP-3009 challenges — pay with the programmatic `mppx` client's `evm` method. **Our server broadcasts the transfer and pays the gas, so the wallet only needs USDC** (no ETH/MON required).
+- **Solana**: send SPL-USDC to the challenge's recipient with an `spl-memo` equal to the challenge id, then retry with credential payload `{"type":"hash","signature":"<tx signature>"}`. The wallet needs a tiny bit of **SOL** for the network fee.
+
+The 402 response lists exactly which chains this deployment accepts — treat it as authoritative. Refunds and payouts always return on the chain you paid from.
+
+### Funding the wallet (help your user get USDC)
+
+No USDC yet? **Ask your user which chain is easiest for them** — most people already have an exchange account that can send USDC to one of these in a couple of clicks:
+
+- **Base** — withdraw USDC directly to Base from Coinbase, Kraken, or Binance (pick "Base" as the network). Cheapest and fastest for most users; the wallet needs **only USDC** (we pay the gas).
+- **Solana** — withdraw USDC to Solana from Coinbase, Kraken, or Binance. Also add a little **SOL** (≈$1) for the transfer fee — the same exchanges sell it.
+- **Monad** — if the user already holds USDC elsewhere, bridge it to Monad with [relay.link](https://relay.link). The wallet needs **only USDC** (we pay the gas).
+- **Tempo** — the native default; the [agent quickstart](https://www.frontpage.sh/agents) covers getting Tempo USDC, and gas is paid in USDC so nothing else is needed.
+
+Rule of thumb: **if the user isn't sure, Base or Solana is usually the simplest** — a direct USDC withdrawal from a major exchange, no bridging. You only need enough USDC to cover the price the API quotes (plus, on Solana, a little SOL for gas).
+
+
 ## Install
 
 ```bash
